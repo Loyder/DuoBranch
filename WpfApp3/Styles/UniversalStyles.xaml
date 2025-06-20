@@ -1,0 +1,409 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Цвета в стиле Duolingo -->
+    <SolidColorBrush x:Key="DuoPrimaryColor" Color="#58CC02"/>
+    <SolidColorBrush x:Key="DuoPrimaryHoverColor" Color="#61E002"/>
+    <SolidColorBrush x:Key="DuoPrimaryPressedColor" Color="#4FA302"/>
+    <SolidColorBrush x:Key="DuoDisabledColor" Color="#E5E5E5"/>
+    <SolidColorBrush x:Key="DuoBackgroundColor" Color="#FFF"/>
+    <SolidColorBrush x:Key="DuoBorderColor" Color="#E5E5E5"/>
+    <SolidColorBrush x:Key="DuoTextColor" Color="#3C3C3C"/>
+    <SolidColorBrush x:Key="DuoIncorrectColor" Color="#FF4B4B"/>
+    <SolidColorBrush x:Key="DuoSecondaryColor" Color="#1CB0F6"/>
+
+    <!-- Базовый стиль для всех элементов управления -->
+    <Style x:Key="DuoBaseStyle">
+        <Setter Property="Control.FontFamily" Value="DIN Round Pro"/>
+        <Setter Property="Control.FontSize" Value="16"/>
+    </Style>
+
+    <!-- Стиль кнопки Duolingo -->
+    <Style TargetType="Button" BasedOn="{StaticResource DuoBaseStyle}">
+        <Setter Property="Background" Value="{StaticResource DuoPrimaryColor}"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="BorderThickness" Value="0,0,0,4"/>
+        <Setter Property="BorderBrush" Value="#4FA302"/>
+        <Setter Property="Padding" Value="16,12"/>
+        <Setter Property="Margin" Value="0,8"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Border x:Name="MainBorder"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="12">
+                            <Border x:Name="BottomBorder"
+                                    Background="{TemplateBinding BorderBrush}"
+                                    CornerRadius="12"
+                                    Height="4"
+                                    VerticalAlignment="Bottom"/>
+                        </Border>
+                        <ContentPresenter x:Name="contentPresenter"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Margin="0,0,0,4"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{StaticResource DuoPrimaryHoverColor}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" Value="{StaticResource DuoPrimaryPressedColor}"/>
+                            <Setter Property="Margin" Value="0,4,0,0"/>
+                            <Setter TargetName="BottomBorder" Property="Height" Value="0"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" Value="{StaticResource DuoDisabledColor}"/>
+                            <Setter Property="BorderBrush" Value="#CCCCCC"/>
+                        </Trigger>
+                        <!-- Этот триггер возвращает кнопку к обычному виду,
+                             если не нажата, не наведена и включена -->
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsPressed" Value="False"/>
+                                <Condition Property="IsMouseOver" Value="False"/>
+                                <Condition Property="IsEnabled" Value="True"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Background" Value="{StaticResource DuoPrimaryColor}"/>
+                            <Setter Property="BorderBrush" Value="#4FA302"/>
+                            <Setter Property="Margin" Value="0,8"/>
+                            <Setter TargetName="BottomBorder" Property="Height" Value="4"/>
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Стиль TextBox в стиле Duolingo -->
+    <Style TargetType="TextBox" BasedOn="{StaticResource DuoBaseStyle}">
+        <Setter Property="Background" Value="{StaticResource DuoBackgroundColor}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource DuoBorderColor}"/>
+        <Setter Property="Foreground" Value="{StaticResource DuoTextColor}"/>
+        <Setter Property="Padding" Value="16,12"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="2"
+                            CornerRadius="12">
+                        <ScrollViewer x:Name="PART_ContentHost"
+                                    Padding="{TemplateBinding Padding}"
+                                    VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter Property="BorderBrush" Value="{StaticResource DuoPrimaryColor}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Обновленный стиль для ProgressBar в стиле Duolingo -->
+    <Style TargetType="ProgressBar">
+        <Setter Property="Height" Value="24"/>
+        <Setter Property="Background" Value="#E5E5E5"/>
+        <Setter Property="Foreground" Value="{StaticResource DuoPrimaryColor}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ProgressBar">
+                    <Grid>
+                        <Border x:Name="PART_Track"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="12"
+                                BorderThickness="0">
+                            <Border x:Name="PART_Indicator"
+                                    HorizontalAlignment="Left"
+                                    CornerRadius="12">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                        <GradientStop Color="#58CC02" Offset="0"/>
+                                        <GradientStop Color="#76CE2B" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <Border.Effect>
+                                    <DropShadowEffect ShadowDepth="0" 
+                                                    BlurRadius="10" 
+                                                    Color="#58CC02" 
+                                                    Opacity="0.3"/>
+                                </Border.Effect>
+                            </Border>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsIndeterminate" Value="true">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Обновленный стиль для кнопки UpIQ -->
+    <Style x:Key="UpIQButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+        <Setter Property="Background" Value="#1CB0F6"/>
+        <Setter Property="BorderBrush" Value="#1899D6"/>
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Background" Value="#E5E5E5"/>
+                <Setter Property="BorderBrush" Value="#CCCCCC"/>
+                <Setter Property="Foreground" Value="#999999"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- Стиль CheckBox в стиле Duolingo -->
+    <Style TargetType="CheckBox" BasedOn="{StaticResource DuoBaseStyle}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="CheckBox">
+                    <Grid>
+                        <Border x:Name="Border"
+                                Width="24" Height="24"
+                                CornerRadius="8"
+                                Background="White"
+                                BorderBrush="{StaticResource DuoBorderColor}"
+                                BorderThickness="2">
+                            <Path x:Name="Checkmark"
+                                  Data="M9.5,13.8l-4.1-4.1L4,11.1l5.5,5.5L20,6.1l-1.4-1.4L9.5,13.8z"
+                                  Fill="{StaticResource DuoPrimaryColor}"
+                                  Visibility="Collapsed"/>
+                        </Border>
+                        <ContentPresenter x:Name="Content"
+                                        Margin="32,0,0,0"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Left"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource DuoPrimaryColor}"/>
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource DuoPrimaryColor}"/>
+                            <Setter TargetName="Checkmark" Property="Fill" Value="White"/>
+                            <Setter TargetName="Checkmark" Property="Visibility" Value="Visible"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Стиль ComboBox в стиле Duolingo -->
+    <Style TargetType="ComboBox" BasedOn="{StaticResource DuoBaseStyle}">
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="BorderBrush" Value="{StaticResource DuoBorderColor}"/>
+        <Setter Property="Padding" Value="12"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ComboBox">
+                    <Grid>
+                        <Border x:Name="Border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="2"
+                                CornerRadius="12">
+                            <Grid>
+                                <ContentPresenter IsHitTestVisible="False"
+                                                Content="{TemplateBinding SelectionBoxItem}"
+                                                ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                                Margin="{TemplateBinding Padding}"/>
+                                <Path x:Name="Arrow"
+                                      Data="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"
+                                      Fill="{StaticResource DuoTextColor}"
+                                      HorizontalAlignment="Right"
+                                      VerticalAlignment="Center"
+                                      Margin="0,0,12,0"/>
+                            </Grid>
+                        </Border>
+                        <Popup x:Name="PART_Popup"
+                               AllowsTransparency="True"
+                               IsOpen="{TemplateBinding IsDropDownOpen}"
+                               Placement="Bottom">
+                            <Border Background="White"
+                                    BorderBrush="{StaticResource DuoBorderColor}"
+                                    BorderThickness="2"
+                                    CornerRadius="12"
+                                    Margin="0,4,0,0">
+                                <ScrollViewer SnapsToDevicePixels="True">
+                                    <ItemsPresenter KeyboardNavigation.DirectionalNavigation="Contained"/>
+                                </ScrollViewer>
+                            </Border>
+                        </Popup>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Стиль ListBox в стиле Duolingo -->
+    <Style TargetType="ListBox" BasedOn="{StaticResource DuoBaseStyle}">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+    </Style>
+
+    <!-- Стиль ListBoxItem в стиле Duolingo -->
+    <Style TargetType="ListBoxItem">
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="Margin" Value="0,0,0,8"/>
+        <Setter Property="Padding" Value="16"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBoxItem">
+                    <Border Background="{TemplateBinding Background}"
+                        BorderBrush="{StaticResource DuoBorderColor}"
+                        BorderThickness="2"
+                        CornerRadius="12">
+                        <ContentPresenter/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="BorderBrush" Value="{StaticResource DuoPrimaryColor}"/>
+                            <Setter Property="Background" Value="#F7F7F7"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Стиль для Rectangle в стиле Duolingo -->
+    <Style TargetType="Rectangle">
+        <Setter Property="RadiusX" Value="12"/>
+        <Setter Property="RadiusY" Value="12"/>
+        <Setter Property="Fill" Value="{StaticResource DuoBackgroundColor}"/>
+        <Setter Property="Stroke" Value="{StaticResource DuoBorderColor}"/>
+        <Setter Property="StrokeThickness" Value="2"/>
+        <Style.Triggers>
+            <!-- Если Rectangle используется как фон для правильного ответа -->
+            <Trigger Property="Tag" Value="Correct">
+                <Setter Property="Fill" Value="{StaticResource DuoPrimaryColor}"/>
+                <Setter Property="Stroke" Value="{StaticResource DuoPrimaryColor}"/>
+            </Trigger>
+            <!-- Если Rectangle используется как фон для неправильного ответа -->
+            <Trigger Property="Tag" Value="Incorrect">
+                <Setter Property="Fill" Value="{StaticResource DuoIncorrectColor}"/>
+                <Setter Property="Stroke" Value="{StaticResource DuoIncorrectColor}"/>
+            </Trigger>
+            <!-- Если Rectangle используется как интерактивный элемент -->
+            <Trigger Property="Tag" Value="Interactive">
+                <Setter Property="Fill" Value="White"/>
+                <Setter Property="Stroke" Value="{StaticResource DuoBorderColor}"/>
+                <Setter Property="Effect">
+                    <Setter.Value>
+                        <DropShadowEffect ShadowDepth="0" 
+                                    BlurRadius="8" 
+                                    Opacity="0.1"/>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- Стили для TextBlock в стиле Duolingo -->
+    <Style TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="DIN Round Pro"/>
+        <Setter Property="Foreground" Value="{StaticResource DuoTextColor}"/>
+        <Setter Property="TextWrapping" Value="Wrap"/>
+        <Setter Property="LineHeight" Value="1.4"/>
+        <Style.Triggers>
+            <!-- Базовый текст -->
+            <Trigger Property="Tag" Value="Regular">
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="Foreground" Value="#4B4B4B"/>
+            </Trigger>
+
+            <!-- Заголовок упражнения -->
+            <Trigger Property="Tag" Value="ExerciseHeader">
+                <Setter Property="FontSize" Value="24"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="Margin" Value="0,0,0,20"/>
+                <Setter Property="Foreground" Value="#3C3C3C"/>
+            </Trigger>
+
+            <!-- Основной текст упражнения -->
+            <Trigger Property="Tag" Value="ExerciseText">
+                <Setter Property="FontSize" Value="28"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="Margin" Value="0,0,0,16"/>
+                <Setter Property="Foreground" Value="#3C3C3C"/>
+            </Trigger>
+
+            <!-- Подсказка -->
+            <Trigger Property="Tag" Value="Hint">
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="Foreground" Value="#777777"/>
+                <Setter Property="FontWeight" Value="Normal"/>
+            </Trigger>
+
+            <!-- Правильный ответ -->
+            <Trigger Property="Tag" Value="Correct">
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="Foreground" Value="White"/>
+            </Trigger>
+
+            <!-- Неправильный ответ -->
+            <Trigger Property="Tag" Value="Incorrect">
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="Foreground" Value="White"/>
+            </Trigger>
+
+            <!-- Счёт/Очки -->
+            <Trigger Property="Tag" Value="Score">
+                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="Foreground" Value="{StaticResource DuoPrimaryColor}"/>
+            </Trigger>
+
+            <!-- Заголовок секции -->
+            <Trigger Property="Tag" Value="SectionHeader">
+                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="Margin" Value="0,24,0,16"/>
+                <Setter Property="Foreground" Value="#3C3C3C"/>
+            </Trigger>
+
+            <!-- Второстепенный текст -->
+            <Trigger Property="Tag" Value="Secondary">
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="Foreground" Value="#777777"/>
+            </Trigger>
+
+            <!-- Текст ошибки -->
+            <Trigger Property="Tag" Value="Error">
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="Foreground" Value="{StaticResource DuoIncorrectColor}"/>
+                <Setter Property="Margin" Value="0,4,0,0"/>
+            </Trigger>
+
+            <!-- Успешное сообщение -->
+            <Trigger Property="Tag" Value="Success">
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="Foreground" Value="{StaticResource DuoPrimaryColor}"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+            </Trigger>
+
+            <!-- Текст для стрика -->
+            <Trigger Property="Tag" Value="Streak">
+                <Setter Property="FontSize" Value="18"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="Foreground" Value="#FF9600"/>
+            </Trigger>
+
+            <!-- Текст для XP -->
+            <Trigger Property="Tag" Value="XP">
+                <Setter Property="FontSize" Value="18"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="Foreground" Value="{StaticResource DuoSecondaryColor}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+</ResourceDictionary>
