@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using WpfApp3.Windows;
@@ -17,20 +18,13 @@ namespace WpfApp3
             UpdateIqUi();
         }
 
-        private void OnIncreaseIQClick(object sender, RoutedEventArgs e)
-        {
-            _iq += 20;
-            if (_iq > 200) _iq = 200;
-            UpdateIqUi();
-        }
-
         private void OnDoomClick(object sender, RoutedEventArgs e)
         {
             var win = new DoomWindow();
             win.IQRewarded += (s, reward) =>
             {
                 _iq += reward;
-                if (_iq > 200) _iq = 200;
+                if (_iq > 500) _iq = 500;
                 UpdateIqUi();
             };
             win.ShowDialog();
@@ -42,7 +36,7 @@ namespace WpfApp3
             win.IQRewarded += (s, reward) =>
             {
                 _iq += reward;
-                if (_iq > 200) _iq = 200;
+                if (_iq > 500) _iq = 500;
                 UpdateIqUi();
             };
             win.ShowDialog();
@@ -54,7 +48,7 @@ namespace WpfApp3
             win.IQRewarded += (s, reward) =>
             {
                 _iq += reward;
-                if (_iq > 200) _iq = 200;
+                if (_iq > 500) _iq = 500;
                 UpdateIqUi();
             };
             win.ShowDialog();
@@ -66,7 +60,7 @@ namespace WpfApp3
             win.IQRewarded += (s, reward) =>
             {
                 _iq += reward;
-                if (_iq > 200) _iq = 200;
+                if (_iq > 500) _iq = 500;
                 UpdateIqUi();
             };
             win.ShowDialog();
@@ -78,7 +72,7 @@ namespace WpfApp3
             win.IQRewarded += (s, reward) =>
             {
                 _iq += reward;
-                if (_iq > 200) _iq = 200;
+                if (_iq > 500) _iq = 500;
                 UpdateIqUi();
             };
             win.ShowDialog();
@@ -90,7 +84,7 @@ namespace WpfApp3
             win.IQRewarded += (s, reward) =>
             {
                 _iq += reward;
-                if (_iq > 200) _iq = 200;
+                if (_iq > 500) _iq = 500;
                 UpdateIqUi();
             };
             win.ShowDialog();
@@ -102,7 +96,7 @@ namespace WpfApp3
             win.IQRewarded += (s, reward) =>
             {
                 _iq += reward;
-                if (_iq > 200) _iq = 200;
+                if (_iq > 500) _iq = 500;
                 UpdateIqUi();
             };
             win.ShowDialog();
@@ -114,7 +108,7 @@ namespace WpfApp3
             win.IQRewarded += (s, reward) =>
             {
                 _iq += reward;
-                if (_iq > 200) _iq = 200;
+                if (_iq > 500) _iq = 500;
                 UpdateIqUi();
             };
             win.ShowDialog();
@@ -126,7 +120,7 @@ namespace WpfApp3
             win.IQRewarded += (s, reward) =>
             {
                 _iq += reward;
-                if (_iq > 200) _iq = 200;
+                if (_iq > 500) _iq = 500;
                 UpdateIqUi();
             };
             win.ShowDialog();
@@ -134,27 +128,47 @@ namespace WpfApp3
 
         private void UpdateIqUi()
         {
-            IQprogress.Value = _iq;
+            IQprogress.Value = Math.Max(0, Math.Min(_iq, 500));
             ProgressText.Text = $"{_iq} IQ";
             IQDescription.Text = GetIqDescription(_iq);
             UpdateComparisonImage(_iq);
+
+            // Цвет прогрессбара в зависимости от значения IQ
+            if (_iq > 0)
+            {
+                IQprogress.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#58CC02")); // зеленый
+            }
+            else if (_iq < 0)
+            {
+                IQprogress.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF4B4B")); // красный
+            }
+            else // _iq == 0
+            {
+                IQprogress.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#CCCCCC")); // серый
+            }
         }
 
         private string GetIqDescription(int iq)
         {
+            if (iq < 0) return "IQ ниже нуля! Это научный прецедент";
             if (iq < 20) return "Абсолютный кретин";
             if (iq < 50) return "Кретин";
             if (iq < 80) return "Средний обыватель";
             if (iq < 120) return "Умный";
             if (iq < 160) return "Очень умный";
             if (iq < 200) return "Гений";
-            return "Гений вселенной";
+            if (iq < 350) return "Гений вселенной";
+            if (iq < 500) return "IQ выше человеческих пределов";
+            return "Сверхсущество";
         }
 
         private void UpdateComparisonImage(int iq)
         {
             string newPath;
-            if (iq <= 50)
+
+            if (iq < 0)
+                newPath = "Resources/Images/ymar.jpg";
+            else if (iq <= 50)
                 newPath = "Resources/Images/sonofwhore.jpg";
             else if (iq <= 80)
                 newPath = "Resources/Images/zolo.png";
