@@ -1,33 +1,40 @@
-﻿<Window x:Class="WpfApp3.DoomWindow"
+﻿<Window x:Class="WpfApp3.Windows.DoomWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Pixel Doom"
-        Height="480"
-        Width="800"
-        Background="Black"
+        Title="DOOM"
+        Height="900"
+        Width="1500"
         WindowStartupLocation="CenterScreen"
-        Icon="Resources/ImagesDoom/doom_eternal_icon_245652.png"
-        Loaded="Window_Loaded">
-    <Canvas x:Name="GameCanvas">
-        <Canvas.Background>
-            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                <GradientStop Color="#232526" Offset="0"/>
-                <GradientStop Color="#414345" Offset="1"/>
-            </LinearGradientBrush>
-        </Canvas.Background>
+        Loaded="Window_Loaded"
+        KeyDown="OnKeyDown"
+        KeyUp="OnKeyUp">
+    <Grid>
+        <Canvas x:Name="GameCanvas"
+                Width="1400"
+                Height="840"
+                Background="Black"/>
         <TextBlock x:Name="WaveText"
-                   Canvas.Left="10"
-                   Canvas.Top="10"
-                   FontSize="22"
                    Foreground="White"
+                   FontSize="44"
                    FontWeight="Bold"
-                   Text="Волна: 1"/>
+                   Margin="30,10,0,0"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   Visibility="Collapsed"/>
         <TextBlock x:Name="LivesText"
-                   Canvas.Left="10"
-                   Canvas.Top="40"
-                   FontSize="18"
-                   Foreground="White"
+                   Foreground="Yellow"
+                   FontSize="44"
                    FontWeight="Bold"
-                   Text="Жизни: 3"/>
-    </Canvas>
+                   Margin="0,10,30,0"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Top"
+                   Visibility="Collapsed"/>
+        <TextBlock x:Name="CountdownText"
+                   Foreground="Red"
+                   FontSize="120"
+                   FontWeight="Bold"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Visibility="Collapsed"/>
+    </Grid>
 </Window>

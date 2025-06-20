@@ -182,5 +182,11 @@
     <Folder Include="Models\" />
     <Folder Include="ViewModels\" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\ymar.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\music\DOOM.mp3" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

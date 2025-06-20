@@ -50,3 +50,73 @@ C:\Users\ISIP-23-2\Desktop\duolin2-main\WpfApp3\obj\Debug\Windows\OddOneWindow.g
 C:\Users\ISIP-23-2\Desktop\duolin2-main\WpfApp3\obj\Debug\Windows\PairsWindow.g.cs
 C:\Users\ISIP-23-2\Desktop\duolin2-main\WpfApp3\obj\Debug\Windows\ShortMemoryWindow.g.cs
 C:\Users\ISIP-23-2\Desktop\duolin2-main\WpfApp3\obj\Debug\Windows\SortNumbersWindow.g.cs
+C:\Users\bogda\Downloads\Telegram Desktop\duolin2-main\WpfApp3\bin\Debug\WpfApp3.exe.config
+C:\Users\bogda\Downloads\Telegram Desktop\duolin2-main\WpfApp3\bin\Debug\WpfApp3.exe
+C:\Users\bogda\Downloads\Telegram Desktop\duolin2-main\WpfApp3\bin\Debug\WpfApp3.pdb
+C:\Users\bogda\Downloads\Telegram Desktop\duolin2-main\WpfApp3\obj\Debug\WpfApp3.csproj.AssemblyReference.cache
+C:\Users\bogda\Downloads\Telegram Desktop\duolin2-main\WpfApp3\obj\Debug\WpfApp3.exe.config
+C:\Users\bogda\Downloads\Telegram Desktop\duolin2-main\WpfApp3\obj\Debug\Windows\AnalogyWindow.baml
+C:\Users\bogda\Downloads\Telegram Desktop\duolin2-main\WpfApp3\obj\Debug\Windows\ArithmeticWindow.baml
+C:\Users\bogda\Downloads\Telegram Desktop\duolin2-main\WpfApp3\obj\Debug\Windows\DoomWindow.baml
+C:\Users\bogda\Downloads\Telegram Desktop\duolin2-main\WpfApp3\obj\Debug\Windows\LogicSequenceWindow.baml
+C:\Users\bogda\Downloads\Telegram Desktop\duolin2-main\WpfApp3\obj\Debug\MainWindow.baml
+C:\Users\bogda\Downloads\Telegram Desktop\duolin2-main\WpfApp3\obj\Debug\Windows\MemorySequenceWindow.baml
+C:\Users\bogda\Downloads\Telegram Desktop\duolin2-main\WpfApp3\obj\Debug\Windows\OddOneWindow.baml
+C:\Users\bogda\Downloads\Telegram Desktop\duolin2-main\WpfApp3\obj\Debug\Windows\PairsWindow.baml
+C:\Users\bogda\Downloads\Telegram Desktop\duolin2-main\WpfApp3\obj\Debug\Windows\ShortMemoryWindow.baml
+C:\Users\bogda\Downloads\Telegram Desktop\duolin2-main\WpfApp3\obj\Debug\Windows\SortNumbersWindow.baml
+C:\Users\bogda\Downloads\Telegram Desktop\duolin2-main\WpfApp3\obj\Debug\Styles\UniversalStyles.baml
+C:\Users\bogda\Downloads\Telegram Desktop\duolin2-main\WpfApp3\obj\Debug\Windows\AnalogyWindow.g.cs
+C:\Users\bogda\Downloads\Telegram Desktop\duolin2-main\WpfApp3\obj\Debug\Windows\ArithmeticWindow.g.cs
+C:\Users\bogda\Downloads\Telegram Desktop\duolin2-main\WpfApp3\obj\Debug\Windows\DoomWindow.g.cs
+C:\Users\bogda\Downloads\Telegram Desktop\duolin2-main\WpfApp3\obj\Debug\Windows\LogicSequenceWindow.g.cs
+C:\Users\bogda\Downloads\Telegram Desktop\duolin2-main\WpfApp3\obj\Debug\MainWindow.g.cs
+C:\Users\bogda\Downloads\Telegram Desktop\duolin2-main\WpfApp3\obj\Debug\Windows\MemorySequenceWindow.g.cs
+C:\Users\bogda\Downloads\Telegram Desktop\duolin2-main\WpfApp3\obj\Debug\Windows\OddOneWindow.g.cs
+C:\Users\bogda\Downloads\Telegram Desktop\duolin2-main\WpfApp3\obj\Debug\Windows\PairsWindow.g.cs
+C:\Users\bogda\Downloads\Telegram Desktop\duolin2-main\WpfApp3\obj\Debug\Windows\ShortMemoryWindow.g.cs
+C:\Users\bogda\Downloads\Telegram Desktop\duolin2-main\WpfApp3\obj\Debug\Windows\SortNumbersWindow.g.cs
+C:\Users\bogda\Downloads\Telegram Desktop\duolin2-main\WpfApp3\obj\Debug\App.g.cs
+C:\Users\bogda\Downloads\Telegram Desktop\duolin2-main\WpfApp3\obj\Debug\WpfApp3_MarkupCompile.cache
+C:\Users\bogda\Downloads\Telegram Desktop\duolin2-main\WpfApp3\obj\Debug\App.baml
+C:\Users\bogda\Downloads\Telegram Desktop\duolin2-main\WpfApp3\obj\Debug\WpfApp3.g.resources
+C:\Users\bogda\Downloads\Telegram Desktop\duolin2-main\WpfApp3\obj\Debug\WpfApp3.Properties.Resources.resources
+C:\Users\bogda\Downloads\Telegram Desktop\duolin2-main\WpfApp3\obj\Debug\WpfApp3.csproj.GenerateResource.cache
+C:\Users\bogda\Downloads\Telegram Desktop\duolin2-main\WpfApp3\obj\Debug\WpfApp3.csproj.CoreCompileInputs.cache
+C:\Users\bogda\Downloads\Telegram Desktop\duolin2-main\WpfApp3\obj\Debug\WpfApp3.exe
+C:\Users\bogda\Downloads\Telegram Desktop\duolin2-main\WpfApp3\obj\Debug\WpfApp3.pdb
+C:\Users\bogda\Desktop\duolin2-main\WpfApp3\bin\Debug\WpfApp3.exe.config
+C:\Users\bogda\Desktop\duolin2-main\WpfApp3\bin\Debug\WpfApp3.exe
+C:\Users\bogda\Desktop\duolin2-main\WpfApp3\bin\Debug\WpfApp3.pdb
+C:\Users\bogda\Desktop\duolin2-main\WpfApp3\obj\Debug\WpfApp3.csproj.AssemblyReference.cache
+C:\Users\bogda\Desktop\duolin2-main\WpfApp3\obj\Debug\Windows\AnalogyWindow.baml
+C:\Users\bogda\Desktop\duolin2-main\WpfApp3\obj\Debug\Windows\ArithmeticWindow.baml
+C:\Users\bogda\Desktop\duolin2-main\WpfApp3\obj\Debug\Windows\DoomWindow.baml
+C:\Users\bogda\Desktop\duolin2-main\WpfApp3\obj\Debug\Windows\LogicSequenceWindow.baml
+C:\Users\bogda\Desktop\duolin2-main\WpfApp3\obj\Debug\MainWindow.baml
+C:\Users\bogda\Desktop\duolin2-main\WpfApp3\obj\Debug\Windows\MemorySequenceWindow.baml
+C:\Users\bogda\Desktop\duolin2-main\WpfApp3\obj\Debug\Windows\OddOneWindow.baml
+C:\Users\bogda\Desktop\duolin2-main\WpfApp3\obj\Debug\Windows\PairsWindow.baml
+C:\Users\bogda\Desktop\duolin2-main\WpfApp3\obj\Debug\Windows\ShortMemoryWindow.baml
+C:\Users\bogda\Desktop\duolin2-main\WpfApp3\obj\Debug\Windows\SortNumbersWindow.baml
+C:\Users\bogda\Desktop\duolin2-main\WpfApp3\obj\Debug\Styles\UniversalStyles.baml
+C:\Users\bogda\Desktop\duolin2-main\WpfApp3\obj\Debug\App.baml
+C:\Users\bogda\Desktop\duolin2-main\WpfApp3\obj\Debug\Windows\AnalogyWindow.g.cs
+C:\Users\bogda\Desktop\duolin2-main\WpfApp3\obj\Debug\Windows\ArithmeticWindow.g.cs
+C:\Users\bogda\Desktop\duolin2-main\WpfApp3\obj\Debug\Windows\DoomWindow.g.cs
+C:\Users\bogda\Desktop\duolin2-main\WpfApp3\obj\Debug\Windows\LogicSequenceWindow.g.cs
+C:\Users\bogda\Desktop\duolin2-main\WpfApp3\obj\Debug\MainWindow.g.cs
+C:\Users\bogda\Desktop\duolin2-main\WpfApp3\obj\Debug\Windows\MemorySequenceWindow.g.cs
+C:\Users\bogda\Desktop\duolin2-main\WpfApp3\obj\Debug\Windows\OddOneWindow.g.cs
+C:\Users\bogda\Desktop\duolin2-main\WpfApp3\obj\Debug\Windows\PairsWindow.g.cs
+C:\Users\bogda\Desktop\duolin2-main\WpfApp3\obj\Debug\Windows\ShortMemoryWindow.g.cs
+C:\Users\bogda\Desktop\duolin2-main\WpfApp3\obj\Debug\Windows\SortNumbersWindow.g.cs
+C:\Users\bogda\Desktop\duolin2-main\WpfApp3\obj\Debug\App.g.cs
+C:\Users\bogda\Desktop\duolin2-main\WpfApp3\obj\Debug\WpfApp3_MarkupCompile.cache
+C:\Users\bogda\Desktop\duolin2-main\WpfApp3\obj\Debug\WpfApp3.g.resources
+C:\Users\bogda\Desktop\duolin2-main\WpfApp3\obj\Debug\WpfApp3.Properties.Resources.resources
+C:\Users\bogda\Desktop\duolin2-main\WpfApp3\obj\Debug\WpfApp3.csproj.GenerateResource.cache
+C:\Users\bogda\Desktop\duolin2-main\WpfApp3\obj\Debug\WpfApp3.csproj.CoreCompileInputs.cache
+C:\Users\bogda\Desktop\duolin2-main\WpfApp3\obj\Debug\WpfApp3.exe
+C:\Users\bogda\Desktop\duolin2-main\WpfApp3\obj\Debug\WpfApp3.pdb
+C:\Users\bogda\Desktop\duolin2-main\WpfApp3\obj\Debug\WpfApp3_Content.g.cs

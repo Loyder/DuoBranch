@@ -9,18 +9,19 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
-namespace WpfApp3
+namespace WpfApp3.Windows
 {
     public partial class DoomWindow : Window
     {
         public event EventHandler<int> IQRewarded;
 
-        private const int PlayerSize = 48;
-        private const int EnemySize = 48;
-        private const int BulletSize = 16;
-        private const int EnemyBulletSize = 14;
-        private const double PlayerSpeed = 9.0;
-        private const double BulletSpeed = 13.0;
+        // Масштабированные параметры
+        private const int PlayerSize = 108;
+        private const int EnemySize = 108;
+        private const int BulletSize = 36;
+        private const int EnemyBulletSize = 30;
+        private const double PlayerSpeed = 21.0;
+        private const double BulletSpeed = 29.0;
 
         private DispatcherTimer gameTimer;
         private Image player;
@@ -28,22 +29,27 @@ namespace WpfApp3
         private List<Ellipse> enemyBullets = new List<Ellipse>();
         private bool isBulletActive = false;
 
-        private double canvasWidth => GameCanvas.ActualWidth > 0 ? GameCanvas.ActualWidth : 800;
-        private double canvasHeight => GameCanvas.ActualHeight > 0 ? GameCanvas.ActualHeight : 480;
+        private double canvasWidth => GameCanvas.ActualWidth > 0 ? GameCanvas.ActualWidth : 1400;
+        private double canvasHeight => GameCanvas.ActualHeight > 0 ? GameCanvas.ActualHeight : 840;
 
         private int wave = 1;
         private int lives = 3;
         private Random rnd = new Random();
         private double enemyShootTimer = 0;
 
-        // Мультивраги
         private List<Image> enemies = new List<Image>();
         private List<int> enemySpeeds = new List<int>();
         private List<bool> enemyKilled = new List<bool>();
         private List<double> enemyDeathAnim = new List<double>();
 
-        // Для определения окончания игры
-        private bool gameOver = false;
+        private bool _closedByButton = false;
+        private bool _alreadyWarned = false;
+
+        private DispatcherTimer countdownTimer;
+        private int countdownValue = 3;
+
+        // Управление
+        private bool isLeftPressed = false, isRightPressed = false, isSpacePressed = false, canShoot = true;
 
         public DoomWindow()
         {
@@ -51,42 +57,87 @@ namespace WpfApp3
             this.Closing += DoomWindow_Closing;
         }
 
-        private void DoomWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            if (!gameOver)
-            {
-                gameTimer?.Stop();
-                MessageBox.Show("Вы проиграли! IQ не начислен.", "Поражение", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            InitializeGame();
+            StartCountdown();
+        }
+
+        private void StartCountdown()
+        {
+            // Всегда удаляем из Canvas, чтобы не было повторного добавления
+            GameCanvas.Children.Remove(WaveText);
+            GameCanvas.Children.Remove(LivesText);
+            GameCanvas.Children.Remove(CountdownText);
+
+            WaveText.Visibility = Visibility.Collapsed;
+            LivesText.Visibility = Visibility.Collapsed;
+            CountdownText.Visibility = Visibility.Visible;
+            countdownValue = 3;
+            CountdownText.Text = countdownValue.ToString();
+
+            // Добавляем только если их нет
+            if (!GameCanvas.Children.Contains(CountdownText))
+                GameCanvas.Children.Add(CountdownText);
+
+            countdownTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
+            countdownTimer.Tick += CountdownTimer_Tick;
+            countdownTimer.Start();
+        }
+
+        private void CountdownTimer_Tick(object sender, EventArgs e)
+        {
+            countdownValue--;
+            if (countdownValue > 0)
+            {
+                CountdownText.Text = countdownValue.ToString();
+            }
+            else
+            {
+                countdownTimer.Stop();
+                CountdownText.Visibility = Visibility.Collapsed;
+                WaveText.Visibility = Visibility.Visible;
+                LivesText.Visibility = Visibility.Visible;
+
+                GameCanvas.Children.Remove(CountdownText);
+                if (!GameCanvas.Children.Contains(WaveText))
+                    GameCanvas.Children.Add(WaveText);
+                if (!GameCanvas.Children.Contains(LivesText))
+                    GameCanvas.Children.Add(LivesText);
+
+                InitializeGame();
+            }
         }
 
         private void InitializeGame()
         {
-            GameCanvas.Children.Clear();
-            GameCanvas.Children.Add(WaveText);
-            GameCanvas.Children.Add(LivesText);
+            // Удаляем все, кроме WaveText и LivesText
+            var toRemove = new List<UIElement>();
+            foreach (UIElement el in GameCanvas.Children)
+            {
+                if (el != WaveText && el != LivesText)
+                    toRemove.Add(el);
+            }
+            foreach (var el in toRemove)
+                GameCanvas.Children.Remove(el);
 
             player = CreateImage("Resources/ImagesDoom/brutal_doom_ico.png", PlayerSize, PlayerSize);
             player.Effect = new DropShadowEffect
             {
                 Color = Colors.GreenYellow,
-                BlurRadius = 20,
+                BlurRadius = 25,
                 ShadowDepth = 0,
                 Opacity = 0.6
             };
             Canvas.SetLeft(player, canvasWidth / 2 - PlayerSize / 2);
-            Canvas.SetTop(player, canvasHeight - PlayerSize * 1.8);
+            Canvas.SetTop(player, canvasHeight - PlayerSize * 1.7);
             GameCanvas.Children.Add(player);
 
             SpawnEnemies();
 
             isBulletActive = false;
             bullet = null;
+            foreach (var eb in enemyBullets)
+                GameCanvas.Children.Remove(eb);
             enemyBullets.Clear();
 
             UpdateUI();
@@ -98,12 +149,15 @@ namespace WpfApp3
 
             this.KeyDown -= OnKeyDown;
             this.KeyDown += OnKeyDown;
+            this.KeyUp -= OnKeyUp;
+            this.KeyUp += OnKeyUp;
             this.Focusable = true;
             this.Focus();
         }
 
         private void SpawnEnemies()
         {
+            // Удаляем старых врагов из Canvas
             foreach (var enemy in enemies)
                 GameCanvas.Children.Remove(enemy);
 
@@ -112,7 +166,7 @@ namespace WpfApp3
             enemyKilled.Clear();
             enemyDeathAnim.Clear();
 
-            int enemyCount = wave < 5 ? 1 : wave - 3; // 5 волна — 2 врага, 6 — 3 и т.д.
+            int enemyCount = wave < 5 ? 1 : wave - 3;
             double spacing = canvasWidth / (enemyCount + 1);
 
             for (int i = 0; i < enemyCount; i++)
@@ -121,9 +175,9 @@ namespace WpfApp3
                 enemy.Effect = new DropShadowEffect
                 {
                     Color = Colors.Red,
-                    BlurRadius = 35,
+                    BlurRadius = 50,
                     ShadowDepth = 0,
-                    Opacity = 0.7
+                    Opacity = 0.8
                 };
 
                 Canvas.SetLeft(enemy, spacing * (i + 1) - EnemySize / 2);
@@ -131,7 +185,7 @@ namespace WpfApp3
                 GameCanvas.Children.Add(enemy);
 
                 enemies.Add(enemy);
-                enemySpeeds.Add((rnd.Next(0, 2) == 0 ? 1 : -1) * (6 + wave * 2));
+                enemySpeeds.Add((rnd.Next(0, 2) == 0 ? 1 : -1) * (9 + wave * 2));
                 enemyKilled.Add(false);
                 enemyDeathAnim.Add(1.0);
             }
@@ -139,6 +193,20 @@ namespace WpfApp3
 
         private void GameLoop(object sender, EventArgs e)
         {
+            if (player != null)
+            {
+                double currentLeft = Canvas.GetLeft(player);
+                if (isLeftPressed && currentLeft - PlayerSpeed >= 0)
+                    Canvas.SetLeft(player, currentLeft - PlayerSpeed);
+                if (isRightPressed && currentLeft + PlayerSize + PlayerSpeed <= canvasWidth)
+                    Canvas.SetLeft(player, currentLeft + PlayerSpeed);
+                if (isSpacePressed && !isBulletActive && canShoot)
+                {
+                    FireBullet();
+                    canShoot = false;
+                }
+            }
+
             bool allEnemiesKilled = true;
             for (int i = 0; i < enemies.Count; i++)
             {
@@ -159,14 +227,15 @@ namespace WpfApp3
                 UpdateUI();
                 if (wave > 10)
                 {
-                    gameOver = true;
                     IQRewarded?.Invoke(this, 10 * (wave - 1));
                     MessageBox.Show($"Победа! Все {wave - 1} волн пройдены. Вам начислено {(wave - 1) * 10} очков IQ.", "Победа", MessageBoxButton.OK, MessageBoxImage.Information);
                     gameTimer.Stop();
+                    _closedByButton = true;
                     this.Close();
                     return;
                 }
                 SpawnEnemies();
+                // Удаляем старые пули врагов из Canvas
                 foreach (var eb in enemyBullets) GameCanvas.Children.Remove(eb);
                 enemyBullets.Clear();
                 return;
@@ -196,13 +265,13 @@ namespace WpfApp3
             }
             Canvas.SetLeft(enemy, currentLeft + speed);
 
-            Canvas.SetTop(enemy, EnemySize * 0.8 + Math.Sin((DateTime.Now.Ticks + i * 100000) / 2.1e7) * 15);
+            Canvas.SetTop(enemy, EnemySize * 0.8 + Math.Sin((DateTime.Now.Ticks + i * 100000) / 2.1e7) * 25);
         }
 
         private void AnimateEnemyDeath(int i)
         {
             var enemy = enemies[i];
-            enemyDeathAnim[i] -= 0.06;
+            enemyDeathAnim[i] -= 0.04;
             enemy.Opacity = Math.Max(0, enemyDeathAnim[i]);
             enemy.RenderTransform = new ScaleTransform(1 + (1 - enemyDeathAnim[i]), 1 + (1 - enemyDeathAnim[i]),
                 EnemySize / 2, EnemySize / 2);
@@ -254,7 +323,6 @@ namespace WpfApp3
             enemyShootTimer -= 0.016;
             if (enemyShootTimer <= 0)
             {
-                // Выбираем случайного живого врага
                 List<int> aliveIndices = new List<int>();
                 for (int i = 0; i < enemies.Count; i++)
                     if (!enemyKilled[i]) aliveIndices.Add(i);
@@ -280,7 +348,7 @@ namespace WpfApp3
                 Effect = new DropShadowEffect
                 {
                     Color = Colors.Red,
-                    BlurRadius = 10,
+                    BlurRadius = 18,
                     ShadowDepth = 0,
                     Opacity = 0.7
                 }
@@ -299,7 +367,7 @@ namespace WpfApp3
             {
                 var eb = enemyBullets[i];
                 double y = Canvas.GetTop(eb);
-                Canvas.SetTop(eb, y + BulletSpeed * 0.84 + wave * 0.6);
+                Canvas.SetTop(eb, y + BulletSpeed * 1.0 + wave * 0.7);
                 if (y > canvasHeight)
                 {
                     GameCanvas.Children.Remove(eb);
@@ -343,31 +411,33 @@ namespace WpfApp3
 
             if (lives <= 0)
             {
-                gameOver = true;
                 gameTimer.Stop();
                 MessageBox.Show("Вы проиграли! IQ не начислен.", "Поражение", MessageBoxButton.OK, MessageBoxImage.Error);
+                _closedByButton = true;
                 this.Close();
             }
         }
 
         private void OnKeyDown(object sender, KeyEventArgs e)
         {
-            if (player == null) return;
-            double currentLeft = Canvas.GetLeft(player);
-            switch (e.Key)
+            if (e.Key == Key.Left)
+                isLeftPressed = true;
+            if (e.Key == Key.Right)
+                isRightPressed = true;
+            if (e.Key == Key.Space)
+                isSpacePressed = true;
+        }
+
+        private void OnKeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Left)
+                isLeftPressed = false;
+            if (e.Key == Key.Right)
+                isRightPressed = false;
+            if (e.Key == Key.Space)
             {
-                case Key.Left:
-                    if (currentLeft - PlayerSpeed >= 0)
-                        Canvas.SetLeft(player, currentLeft - PlayerSpeed);
-                    break;
-                case Key.Right:
-                    if (currentLeft + PlayerSize + PlayerSpeed <= canvasWidth)
-                        Canvas.SetLeft(player, currentLeft + PlayerSpeed);
-                    break;
-                case Key.Space:
-                    if (!isBulletActive)
-                        FireBullet();
-                    break;
+                isSpacePressed = false;
+                canShoot = true;
             }
         }
 
@@ -381,7 +451,7 @@ namespace WpfApp3
                 Effect = new DropShadowEffect
                 {
                     Color = Colors.Yellow,
-                    BlurRadius = 15,
+                    BlurRadius = 25,
                     ShadowDepth = 0,
                     Opacity = 0.7
                 }
@@ -421,6 +491,27 @@ namespace WpfApp3
         {
             WaveText.Text = $"Волна: {wave}";
             LivesText.Text = $"Жизни: {lives}";
+        }
+
+        private void DoomWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (!_closedByButton && !_alreadyWarned)
+            {
+                e.Cancel = true;
+                _alreadyWarned = true;
+                Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    MessageBox.Show(
+                        "Вы прервали текущее задание.\nЗа это вам прилагается исключение в размере 50 IQ.",
+                        "Исключение за прерывание",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error
+                    );
+                    IQRewarded?.Invoke(this, -50);
+                    _closedByButton = true;
+                    this.Close();
+                }));
+            }
         }
     }
 }

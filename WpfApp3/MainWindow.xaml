@@ -9,8 +9,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-
-        <!-- Верхняя панель с прогрессом (фиксированная) -->
+        <!-- Верхняя панель -->
         <Border Background="White" CornerRadius="20" Margin="20,20,20,0" Height="120">
             <Grid Margin="20">
                 <Grid.ColumnDefinitions>
@@ -18,12 +17,12 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <!-- Иконка мозга с анимацией -->
+                <!-- Иконка мозга -->
                 <Border Width="72" Height="72" Margin="10,0,20,0" RenderTransformOrigin="0.5,0.5">
                     <Border.RenderTransform>
                         <ScaleTransform x:Name="BrainScale" />
                     </Border.RenderTransform>
-                    <Image Source="/Resources/Images/brain.png" Stretch="Uniform"/>
+                    <Image Source="Resources/Images/brain.png" Stretch="Uniform"/>
                     <Border.Triggers>
                         <EventTrigger RoutedEvent="Border.Loaded">
                             <BeginStoryboard>
@@ -35,7 +34,7 @@
                         </EventTrigger>
                     </Border.Triggers>
                 </Border>
-                <!-- Секция с прогрессом -->
+                <!-- Прогресс -->
                 <StackPanel Grid.Column="1" Margin="0,10">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -46,12 +45,48 @@
                         <TextBlock Text="Твой IQ:" FontSize="20" FontWeight="Bold" Foreground="#3C3C3C"/>
                         <TextBlock x:Name="ProgressText" Grid.Column="2" Text="0 IQ" FontSize="20" FontWeight="Bold" Foreground="#58CC02"/>
                     </Grid>
-                    <ProgressBar x:Name="IQprogress" Height="43" Maximum="200" Value="0" Background="#FFE5E5E5" Foreground="#58CC02" Margin="0,10,0,0"/>
+                    <ProgressBar x:Name="IQprogress"
+                                 Height="43"
+                                 Minimum="0"
+                                 Maximum="500"
+                                 Value="0"
+                                 Background="#FFE5E5E5"
+                                 Margin="0,10,0,0">
+                        <ProgressBar.Resources>
+                            <Style TargetType="ProgressBar">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ProgressBar">
+                                            <Grid x:Name="GridRoot" Height="43">
+                                                <!-- Background bar -->
+                                                <Border x:Name="PART_Track"
+                                                        CornerRadius="4"
+                                                        Background="{TemplateBinding Background}"
+                                                        Height="43"/>
+                                                <!-- Progress indicator bar -->
+                                                <Border x:Name="PART_Indicator"
+                                                        Background="{TemplateBinding Foreground}"
+                                                        CornerRadius="4"
+                                                        Height="43"
+                                                        HorizontalAlignment="Left"
+                                                        Width="0"/>
+                                            </Grid>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsIndeterminate" Value="True">
+                                                    <!-- Optional: handle indeterminate state if needed -->
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ProgressBar.Resources>
+                    </ProgressBar>
                     <TextBlock x:Name="IQDescription" Text="Начальный уровень" FontSize="16" Foreground="#3C3C3C" HorizontalAlignment="Center" Margin="0,5,0,0"/>
                 </StackPanel>
-                <!-- Изображение сравнения -->
+                <!-- Сравнительное изображение -->
                 <Border Grid.Column="2" Width="100" Height="100" Margin="20,0,10,0" ClipToBounds="True">
-                    <Image x:Name="ComparisonImage" Source="/Resources/Images/sonofwhore.jpg" Stretch="Uniform">
+                    <Image x:Name="ComparisonImage" Source="Resources/Images/sonofwhore.jpg" Stretch="Uniform">
                         <Image.Effect>
                             <DropShadowEffect ShadowDepth="0" BlurRadius="10" Opacity="0.2"/>
                         </Image.Effect>
@@ -59,33 +94,16 @@
                 </Border>
             </Grid>
         </Border>
-
-        <!-- Основная область с заданиями -->
+        <!-- Основная область -->
         <Border Grid.Row="1" Background="White" CornerRadius="20" Margin="20" >
             <Grid Margin="20">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <TextBlock Text="Задания для повышения IQ" FontSize="24" FontWeight="Bold" Foreground="#3C3C3C" HorizontalAlignment="Center" Margin="0,0,0,20"/>
-                <Button Grid.Row="1" Content="ПОВЫСИТЬ IQ" Height="50" Margin="0,0,0,30" Click="OnIncreaseIQClick">
-                    <Button.RenderTransform>
-                        <ScaleTransform x:Name="ButtonScale"/>
-                    </Button.RenderTransform>
-                    <Button.Triggers>
-                        <EventTrigger RoutedEvent="Button.Click">
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <DoubleAnimation Storyboard.TargetName="ButtonScale" Storyboard.TargetProperty="ScaleX" From="0.95" To="1" Duration="0:0:0.2"/>
-                                    <DoubleAnimation Storyboard.TargetName="ButtonScale" Storyboard.TargetProperty="ScaleY" From="0.95" To="1" Duration="0:0:0.2"/>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                    </Button.Triggers>
-                </Button>
-                <!-- Кнопки заданий 3x3 -->
-                <Grid Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <!-- Кнопки заданий -->
+                <Grid Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
